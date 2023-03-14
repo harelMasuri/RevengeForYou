@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="350dp"
+    android:orientation="vertical"
+    android:background="@drawable/background1">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User name:"
+        android:textSize="25sp"
+        android:layout_marginLeft="10sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="User name"
+        android:textSize="35sp"
+        android:layout_marginLeft="10sp"
+        android:id="@+id/etUserNameSignIn"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password:"
+        android:textSize="25sp"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="10sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="numberPassword"
+        android:textSize="35sp"
+        android:layout_marginLeft="10sp"
+        android:id="@+id/etPassSignIn"/>
+
+    <Button
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="18dp"
+        android:text="n e x t"
+        android:textSize="20sp"
+        android:background="@drawable/backgroundcolor"
+        android:layout_marginTop="25sp"
+        android:layout_marginRight="13dp"
+        android:layout_gravity="center"
+        android:id="@+id/btnNext"/>
+
+</LinearLayout>
