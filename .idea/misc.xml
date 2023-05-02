@@ -5,6 +5,10 @@
       <map>
         <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/activity_revenge_acount.xml" value="0.33" />
+        <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/castom_layout_create_revenge.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/custom_layout_create_revenge.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/custom_layout_signin.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/custom_layout_signup.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/student/AndroidStudioProjects/RevengeForYou/app/src/main/res/layout/fragment_settings.xml" value="0.36666666666666664" />
@@ -15,7 +19,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

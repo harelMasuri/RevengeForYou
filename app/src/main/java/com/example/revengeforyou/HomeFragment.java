@@ -1,5 +1,6 @@
 package com.example.revengeforyou;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FloatingActionButton btnFloatingActionButton;
+    Dialog dCreateRevenge;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -44,24 +46,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        //btnFloatingActionButton = (FloatingActionButton) findViewById(R.id.btnFloatingActionButton);
-        //btnFloatingActionButton.setOnClickListener(this);
-
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        btnFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.btnFloatingActionButton);
+        btnFloatingActionButton.setOnClickListener(this);
+
+        dCreateRevenge = new Dialog(getActivity());
+        dCreateRevenge.setContentView(R.layout.custom_layout_create_revenge);
+        dCreateRevenge.setCancelable(true);
+
+        return view;
     }
 
 
     @Override
     public void onClick(View view) {
 
+        if(view == btnFloatingActionButton)
+        {
+            dCreateRevenge.show();
+
+        }
+
+
+
     }
+
 
 
 }
