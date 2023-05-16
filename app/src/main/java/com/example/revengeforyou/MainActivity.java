@@ -21,13 +21,20 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+
+    private FirebaseAuth mAuth;
 
     Dialog dSignUp, dSignIn, dMusic;
     Button btnSignIn, btnSignUp, btnSave, btnNext;
     EditText etUserNameSignUp, etPassSignUp, etUserNameSignIn, etPassSignIn;
     Switch swMusic;
-    SharedPreferences sp;
+    //SharedPreferences sp;
     MediaPlayer mpRevenge;
     SeekBar sbMusic;
     AudioManager amMusic;
@@ -37,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sp = getSharedPreferences("details1", 0);
+        mAuth = FirebaseAuth.getInstance();
+
+        //sp = getSharedPreferences("details1", 0);
 
         dSignUp = new Dialog(this);
         dSignUp.setContentView(R.layout.custom_layout_signup);
@@ -76,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnSignIn.setOnClickListener(this);
         btnSignUp.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
-        btnNext.setOnClickListener(this);
+        //btnSave.setOnClickListener(this);
+        //btnNext.setOnClickListener(this);
 
     }
 
@@ -110,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dSignUp.show();
         }
 
-        if(view == btnSave)
+        /*if(view == btnSave)
         {
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("username", etUserNameSignUp.getText().toString());
@@ -120,31 +129,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dSignUp.dismiss();
             etUserNameSignUp.setText("");
             etPassSignUp.setText("");
-        }
+        }*/
 
         if(view == btnSignIn)
         {
             dSignIn.show();
         }
 
-        if(view == btnNext)
-        {
-            if(etUserNameSignIn.getText().toString().equals(sp.getString("username", null)) && etPassSignIn.getText().toString().equals(sp.getString("etPass", null)))
-            {
+        /*if(view == btnNext) {
+            if(etUserNameSignIn.getText().toString().equals(sp.getString("username", null)) && etPassSignIn.getText().toString().equals(sp.getString("etPass", null))) {
                 Intent intent = new Intent(MainActivity.this, RevengeAcount.class);
                 dSignIn.dismiss();
                 startActivity(intent);
                 etUserNameSignIn.setText("");
                 etPassSignIn.setText("");
             }
-            else
-            {
+        }*/
+
+        /*else {
                 dSignIn.dismiss();
                 Toast.makeText(this, "username or password wrong", Toast.LENGTH_LONG).show();
-            }
+            }*/
+
         }
 
-    }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b)
@@ -179,5 +187,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+
+    public void signIn(View view) {
+
+
+
+        mAuth.createUserWithEmailAndPassword(etUserNameSignUp.getText().toString(), etPassSignUp.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            //startActivity(new Intent(MainActivity.this, RevengeAcount.class));
+                            Intent intent = new Intent(MainActivity.this, RevengeAcount.class);
+                            Toast.makeText(MainActivity.this, "username and password saved", Toast.LENGTH_LONG).show();
+                            dSignUp.dismiss();
+                            etUserNameSignUp.setText("");
+                            etPassSignUp.setText("");
+                        }
+
+                        else {
+                            Toast.makeText(MainActivity.this, "Sign Up failed", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+    }
+
+    public void signUp(View view) {
+
+        mAuth.signInWithEmailAndPassword(etUserNameSignIn.getText().toString(), etPassSignIn.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //startActivity(new Intent(MainActivity.this, RevengeAcount.class));
+                            Intent intent = new Intent(MainActivity.this, RevengeAcount.class);
+                            dSignIn.dismiss();
+                            etUserNameSignIn.setText("");
+                            etPassSignIn.setText("");
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Sign In failed", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
     }
 }
