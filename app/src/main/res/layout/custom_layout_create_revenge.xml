@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Name of revenge"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/NameOfRevenge"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Who will take revenge?"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/WhoWillTakeRevenge"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="What the revenge?"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/WhatTheRevenge"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="The reason for revenge?"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/ReasonForRevenge"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -67,7 +71,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:paddingHorizontal="70dp"
-        android:text="create revenge"/>
+        android:text="create revenge"
+        android:id="@+id/btnCreateRevenge"/>
 
 
 

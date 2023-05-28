@@ -8,15 +8,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FloatingActionButton btnFloatingActionButton;
     Dialog dCreateRevenge;
+    Button btnCreateRevenge;
+    EditText NameOfRevenge, WhoWillTakeRevenge, WhatTheRevenge, ReasonForRevenge;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +66,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         dCreateRevenge.setContentView(R.layout.custom_layout_create_revenge);
         dCreateRevenge.setCancelable(true);
 
+        btnCreateRevenge = (Button) view.findViewById(R.id.btnCreateRevenge);
+        btnCreateRevenge.setOnClickListener(this);
+
+        NameOfRevenge = (EditText) view.findViewById(R.id.NameOfRevenge);
+        WhoWillTakeRevenge = (EditText) view.findViewById(R.id.WhoWillTakeRevenge);
+        WhatTheRevenge = (EditText) view.findViewById(R.id.WhatTheRevenge);
+        ReasonForRevenge = (EditText) view.findViewById(R.id.ReasonForRevenge);
+
         return view;
     }
 
@@ -69,6 +84,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if(view == btnFloatingActionButton)
         {
             dCreateRevenge.show();
+
+        }
+
+        if(view == btnCreateRevenge)
+        {
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("Revenge");
+
+            Revenge revenge = new Revenge(NameOfRevenge.getText().toString(), WhoWillTakeRevenge.getText().toString(),
+                    WhatTheRevenge.getText().toString(), ReasonForRevenge.getText().toString());
+
+            myRef.setValue(revenge);
+
 
         }
 
