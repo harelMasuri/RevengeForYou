@@ -1,6 +1,6 @@
 package com.example.revengeforyou;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         int id = item.getItemId();
         if(id == R.id.Music1)
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAuth.createUserWithEmailAndPassword(etUserNameSignUp.getText().toString(), etPassSignUp.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                        public void onComplete(Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(MainActivity.this, RevengeAcount.class));
                                 dSignUp.dismiss();
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mAuth.signInWithEmailAndPassword(etUserNameSignIn.getText().toString(), etPassSignIn.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(Task<AuthResult> task) {
 
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(MainActivity.this, RevengeAcount.class));
@@ -206,5 +206,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
+
 
 }

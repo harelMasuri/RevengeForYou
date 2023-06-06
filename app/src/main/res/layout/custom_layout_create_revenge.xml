@@ -11,7 +11,8 @@
         android:text="Name of revenge:"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/etReasonForRevenge"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -26,7 +27,8 @@
         android:text="Who?"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/etNameOfRevenge"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -41,7 +43,8 @@
         android:text="What is the revenge?"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/etWhoRevenge"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -56,7 +59,8 @@
         android:text="The reason for revenge?"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:id="@+id/etWhatRevenge"/>
 
     <EditText
         android:layout_width="wrap_content"
