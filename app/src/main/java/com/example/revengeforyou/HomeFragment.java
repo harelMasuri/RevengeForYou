@@ -8,15 +8,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     FloatingActionButton btnFloatingActionButton;
     Dialog dCreateRevenge;
+    Button btnCreateRevenge;
+    EditText etNameOfRevenge, etWhoWillTakeRevenge, etWhatTheRevenge, etReasonForRevenge;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -59,6 +65,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         dCreateRevenge.setContentView(R.layout.custom_layout_create_revenge);
         dCreateRevenge.setCancelable(true);
 
+        btnCreateRevenge = (Button) dCreateRevenge.findViewById(R.id.btnCreateRevenge);
+        btnCreateRevenge.setOnClickListener(this);
+
+        etNameOfRevenge = (EditText) dCreateRevenge.findViewById(R.id.etNameOfRevenge);
+        etWhoWillTakeRevenge = (EditText) dCreateRevenge.findViewById(R.id.etWhoWillTakeRevenge);
+        etWhatTheRevenge = (EditText) dCreateRevenge.findViewById(R.id.etWhatTheRevenge);
+        etReasonForRevenge = (EditText) dCreateRevenge.findViewById(R.id.etReasonForRevenge);
+
+
         return view;
     }
 
@@ -70,6 +85,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         {
             dCreateRevenge.show();
 
+        }
+
+        if(view == btnCreateRevenge)
+        {
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("revenge");
+            Revenge revenge = new Revenge(etNameOfRevenge.getText().toString(), etWhoWillTakeRevenge.getText().toString(), etWhatTheRevenge.getText().toString(), etReasonForRevenge.getText().toString());
+            myRef.setValue(revenge);
+            dCreateRevenge.dismiss();
+
+            /*if (!revenge.getEtNameOfRevenge().isEmpty() && !revenge.getEtWhoWillTakeRevenge().isEmpty() && !revenge.getEtWhatTheRevenge().isEmpty() && !revenge.getEtReasonForRevenge().isEmpty()) {
+
+            }*/
         }
 
 

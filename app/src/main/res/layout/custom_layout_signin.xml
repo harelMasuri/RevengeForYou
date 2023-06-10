@@ -18,7 +18,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User name"
+        android:hint="Email"
         android:textSize="35sp"
         android:layout_marginLeft="10sp"
         android:id="@+id/etUserNameSignIn"/>
@@ -35,7 +35,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Above 6 numbers"
         android:inputType="numberPassword"
         android:textSize="35sp"
         android:layout_marginLeft="10sp"

@@ -2,47 +2,50 @@ package com.example.revengeforyou;
 
 public class Revenge {
 
-    private String NameOfRevenge;
-    private String WhoWillTakeRevenge;
-    private String WhatTheRevenge;
-    private String ReasonForRevenge;
+    private String etNameOfRevenge;
+    private String etWhoWillTakeRevenge;
+    private String etWhatTheRevenge;
+    private String etReasonForRevenge;
 
-    public Revenge(String nameOfRevenge, String whoWillTakeRevenge, String whatTheRevenge, String reasonForRevenge) {
-        NameOfRevenge = nameOfRevenge;
-        WhoWillTakeRevenge = whoWillTakeRevenge;
-        WhatTheRevenge = whatTheRevenge;
-        ReasonForRevenge = reasonForRevenge;
+    public Revenge(String etNameOfRevenge, String etWhoWillTakeRevenge, String etWhatTheRevenge, String etReasonForRevenge) {
+        this.etNameOfRevenge = etNameOfRevenge;
+        this.etWhoWillTakeRevenge = etWhoWillTakeRevenge;
+        this.etWhatTheRevenge = etWhatTheRevenge;
+        this.etReasonForRevenge = etReasonForRevenge;
     }
 
-    public String getNameOfRevenge() {
-        return NameOfRevenge;
+    public Revenge() {
     }
 
-    public void setNameOfRevenge(String nameOfRevenge) {
-        NameOfRevenge = nameOfRevenge;
+    public String getEtNameOfRevenge() {
+        return etNameOfRevenge;
     }
 
-    public String getWhoWillTakeRevenge() {
-        return WhoWillTakeRevenge;
+    public void setEtNameOfRevenge(String etNameOfRevenge) {
+        this.etNameOfRevenge = etNameOfRevenge;
     }
 
-    public void setWhoWillTakeRevenge(String whoWillTakeRevenge) {
-        WhoWillTakeRevenge = whoWillTakeRevenge;
+    public String getEtWhoWillTakeRevenge() {
+        return etWhoWillTakeRevenge;
     }
 
-    public String getWhatTheRevenge() {
-        return WhatTheRevenge;
+    public void setEtWhoWillTakeRevenge(String etWhoWillTakeRevenge) {
+        this.etWhoWillTakeRevenge = etWhoWillTakeRevenge;
     }
 
-    public void setWhatTheRevenge(String whatTheRevenge) {
-        WhatTheRevenge = whatTheRevenge;
+    public String getEtWhatTheRevenge() {
+        return etWhatTheRevenge;
     }
 
-    public String getReasonForRevenge() {
-        return ReasonForRevenge;
+    public void setEtWhatTheRevenge(String etWhatTheRevenge) {
+        this.etWhatTheRevenge = etWhatTheRevenge;
     }
 
-    public void setReasonForRevenge(String reasonForRevenge) {
-        ReasonForRevenge = reasonForRevenge;
+    public String getEtReasonForRevenge() {
+        return etReasonForRevenge;
+    }
+
+    public void setEtReasonForRevenge(String etReasonForRevenge) {
+        this.etReasonForRevenge = etReasonForRevenge;
     }
 }
