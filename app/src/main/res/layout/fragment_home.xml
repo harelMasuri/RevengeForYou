@@ -20,5 +20,12 @@
         app:maxImageSize="30dp"
         android:src="@drawable/icon_add"
         />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerview_revenges">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
