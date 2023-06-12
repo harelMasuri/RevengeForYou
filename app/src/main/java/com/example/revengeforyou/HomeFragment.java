@@ -1,9 +1,11 @@
 package com.example.revengeforyou;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Revenge revenge;
     ArrayList<Revenge> revenges;
     RevengeAdapter revengeAdapter;
+    int counterRemoved = 0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
     DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
@@ -108,10 +112,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         revenges = new ArrayList<>();
         revengeAdapter = new RevengeAdapter(revenges);
         recyclerView.setAdapter(revengeAdapter);
+        revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
+            @Override
+            public void onRevengeClick(int position) {
+
+                Revenge r = revenges.get(position);
+                String key = r.getRevengeId();
+                revenges.remove(position);
+                revengeAdapter.notifyItemRemoved(position);
+
+                // delete from Firebase
+                deleteItem(key);
+
+                counterRemoved++;
+            }
+        });
 
         // Read Revenges from Firebase
-//        database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
-//        myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -119,7 +136,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 for(DataSnapshot revengeSnapshot : snapshot.getChildren())
                 {
                     Revenge currentRevenge = revengeSnapshot.getValue(Revenge.class);
-                    Log.d("HomeFragment", "*************** READ: " + revengeSnapshot.getKey());
+                    currentRevenge.setRevengeId(revengeSnapshot.getKey());
                     revenges.add(currentRevenge);
                 }
                 revengeAdapter.notifyDataSetChanged();
@@ -141,12 +158,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if(view == btnFloatingActionButton)
         {
             dCreateRevenge.show();
-
         }
-
+        else
         if(view == btnCreateRevenge)
         {
-
             revenge = new Revenge(etNameOfRevenge.getText().toString(), etWhoWillTakeRevenge.getText().toString(), etWhatTheRevenge.getText().toString(), etReasonForRevenge.getText().toString());
             revenges.add(revenge);
             revengeAdapter = new RevengeAdapter(revenges);
@@ -157,19 +172,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
 //                DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
                 String key = myRef.push().getKey();
+                revenge.setRevengeId(key);
                 myRef.child(key).setValue(revenge);
                 dCreateRevenge.dismiss();
+
 
                 etNameOfRevenge.setText("");
                 etWhoWillTakeRevenge.setText("");
                 etWhatTheRevenge.setText("");
                 etReasonForRevenge.setText("");
-
             }
-            else{
+            else {
                 Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_LONG).show();
             }
-
         }
     }
+
+
+    void deleteItem(String itemKey)
+    {
+        Query myQuery = myRef.child(itemKey);
+
+        myQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot revengeSnapshot: dataSnapshot.getChildren()) {
+                    // Log.d("HomeFragment", "*************** DELETE: " + revengeSnapshot.getKey());
+                    revengeSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Log.e("HomeFragment", "*************** onCancelled", databaseError.toException());
+            }
+        });
+    }
+
+
 }

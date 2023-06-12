@@ -6,6 +6,14 @@
     tools:context=".ProfileFragment"
     android:background="#E61C1C">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:id="@+id/TVCounter"/>
+
 
 
 </FrameLayout>

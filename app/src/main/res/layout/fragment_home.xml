@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="730dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment"
     android:background="#E61C1C">
@@ -15,7 +15,7 @@
         android:id="@+id/btnFloatingActionButton"
         android:textSize="30sp"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="85dp"
+        android:layout_marginBottom="35dp"
         android:layout_marginRight="25dp"
         app:maxImageSize="30dp"
         android:src="@drawable/icon_add"

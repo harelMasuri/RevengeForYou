@@ -119,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(view == btnSave)
         {
-
-
             mAuth.createUserWithEmailAndPassword(etUserNameSignUp.getText().toString(), etPassSignUp.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -142,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             etPassSignUp.setText("");
         }
 
+
+
+
         if(view == btnSignIn)
         {
             dSignIn.show();
@@ -156,10 +157,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(MainActivity.this, RevengeAcount.class));
-                                    Toast.makeText(MainActivity.this, "username and password saved", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "your welcome!", Toast.LENGTH_LONG).show();
                                 }
                                 else {
-                                    Toast.makeText(MainActivity.this, "Sign Up failed", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "Sign In failed", Toast.LENGTH_LONG).show();
                                 }
 
                             }

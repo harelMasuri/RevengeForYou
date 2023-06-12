@@ -7,6 +7,7 @@ public class Revenge {
     private String etWhatTheRevenge;
     private String etReasonForRevenge;
     private Boolean revengeIsDone;
+    private String revengeId;
 
     public Revenge(String etNameOfRevenge, String etWhoWillTakeRevenge, String etWhatTheRevenge, String etReasonForRevenge) {
         this.etNameOfRevenge = etNameOfRevenge;
@@ -14,6 +15,7 @@ public class Revenge {
         this.etWhatTheRevenge = etWhatTheRevenge;
         this.etReasonForRevenge = etReasonForRevenge;
         this.revengeIsDone = false;
+        this.revengeId = "";
     }
 
     public Revenge() {
@@ -21,6 +23,14 @@ public class Revenge {
 
     public String getEtNameOfRevenge() {
         return etNameOfRevenge;
+    }
+
+    public String getRevengeId() {
+        return revengeId;
+    }
+
+    public void setRevengeId(String revengeId) {
+        this.revengeId = revengeId;
     }
 
     public void setEtNameOfRevenge(String etNameOfRevenge) {

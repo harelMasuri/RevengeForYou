@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#E61C1C"
     android:orientation="vertical">
 
     <TextView
@@ -12,10 +12,10 @@
         android:layout_width="234dp"
         android:layout_height="39dp"
         android:layout_gravity="center"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="17dp"
         android:gravity="center"
         android:text="TVNameOfRevenge"
-        android:textSize="17sp"
+        android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,8 @@
         android:layout_width="334dp"
         android:layout_height="32dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
+        android:textSize="20sp"
         android:gravity="center"
         android:text="TVWhoWillTakeRevenge" />
 
@@ -33,7 +34,8 @@
         android:layout_width="335dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
+        android:textSize="17sp"
         android:gravity="center"
         android:text="TVWhatTheRevenge" />
 
@@ -42,7 +44,8 @@
         android:layout_width="334dp"
         android:layout_height="29dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
+        android:textSize="17sp"
         android:gravity="center"
         android:text="TVReasonForRevenge" />
 
@@ -52,23 +55,30 @@
         android:layout_gravity="center"
         android:layout_marginTop="5dp">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
+        <ImageView
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/icon_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="10dp"/>
+            android:id="@+id/ImageDeleteRevenge"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="10dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:layout_marginTop="4dp"
+        android:background="#B80909" />
 
 </LinearLayout>
