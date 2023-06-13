@@ -1,5 +1,8 @@
 package com.example.revengeforyou;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,36 +10,27 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.Switch;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    Switch swMusicSettings;
+    SeekBar sbMusicSettings;
+    MediaPlayer mpRevengeSettings;
+    AudioManager amMusicSettings;
+
+
     public SettingsFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
@@ -58,7 +52,57 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        swMusicSettings = (Switch)view.findViewById(R.id.swMusicSettings);
+        swMusicSettings.setOnCheckedChangeListener(SettingsFragment.this);
+
+        sbMusicSettings = (SeekBar)view.findViewById(R.id.sbMusicSettings);
+        mpRevengeSettings = MediaPlayer.create(requireContext(), R.raw.music_for_app_revenge);
+        //mpRevengeSettings.start();
+
+
+        amMusicSettings = (AudioManager) requireContext().getSystemService(Context.AUDIO_SERVICE);
+        int max = amMusicSettings.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        sbMusicSettings.setMax(16);
+        sbMusicSettings.setProgress(8);
+        amMusicSettings.setStreamVolume(AudioManager.STREAM_MUSIC, max/2, 0);
+        sbMusicSettings.setOnSeekBarChangeListener(SettingsFragment.this);
+
+        return view;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+        if(compoundButton == swMusicSettings)
+        {
+            if(b)
+            {
+                mpRevengeSettings.start();
+            }
+            else {
+                mpRevengeSettings.pause();
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if(seekBar == sbMusicSettings){
+            amMusicSettings.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

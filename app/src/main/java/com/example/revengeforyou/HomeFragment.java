@@ -1,22 +1,17 @@
 package com.example.revengeforyou;
 
 import android.app.Dialog;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -112,6 +106,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         revenges = new ArrayList<>();
         revengeAdapter = new RevengeAdapter(revenges);
         recyclerView.setAdapter(revengeAdapter);
+
         revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
             @Override
             public void onRevengeClick(int position) {
@@ -159,7 +154,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         {
             dCreateRevenge.show();
         }
-        else
+
         if(view == btnCreateRevenge)
         {
             revenge = new Revenge(etNameOfRevenge.getText().toString(), etWhoWillTakeRevenge.getText().toString(), etWhatTheRevenge.getText().toString(), etReasonForRevenge.getText().toString());

@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(MainActivity.this, RevengeAcount.class));
-                                    Toast.makeText(MainActivity.this, "your welcome!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
                                 }
                                 else {
                                     Toast.makeText(MainActivity.this, "Sign In failed", Toast.LENGTH_LONG).show();
