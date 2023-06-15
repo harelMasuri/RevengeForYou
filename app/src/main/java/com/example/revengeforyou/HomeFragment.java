@@ -40,9 +40,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ArrayList<Revenge> revenges;
     RevengeAdapter revengeAdapter;
     int counterRemoved = 0;
+    String counterKey = "";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
     DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
+    DatabaseReference myRefDel = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -107,6 +109,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         revengeAdapter = new RevengeAdapter(revenges);
         recyclerView.setAdapter(revengeAdapter);
 
+
+        // Create Zero value for deletion counter
+        String key = myRefDel.push().getKey();
+        myRefDel.child(key).setValue(0);
+
+
+        // Delete Item listener
         revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
             @Override
             public void onRevengeClick(int position) {
@@ -120,16 +129,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 deleteItem(key);
 
                 counterRemoved++;
+
+                updateCounter(counterRemoved);
             }
         });
 
-        // Read Revenges from Firebase
+        // Add Item listener (Read again Revenges from Firebase)
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 revenges.clear();
                 for(DataSnapshot revengeSnapshot : snapshot.getChildren())
                 {
+                    String key = revengeSnapshot.getKey();
                     Revenge currentRevenge = revengeSnapshot.getValue(Revenge.class);
                     currentRevenge.setRevengeId(revengeSnapshot.getKey());
                     revenges.add(currentRevenge);
@@ -143,6 +155,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        // Add Item listener (Read RevengesDeletions from Firebase)
+        myRefDel.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for(DataSnapshot revengeDeletionSnapshot : snapshot.getChildren())
+                {
+                    counterKey = revengeDeletionSnapshot.getKey();
+                    counterRemoved = revengeDeletionSnapshot.getValue(Integer.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
+
+
         return view;
     }
 
@@ -155,6 +185,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             dCreateRevenge.show();
         }
 
+        // Create new Revenge
         if(view == btnCreateRevenge)
         {
             revenge = new Revenge(etNameOfRevenge.getText().toString(), etWhoWillTakeRevenge.getText().toString(), etWhatTheRevenge.getText().toString(), etReasonForRevenge.getText().toString());
@@ -164,14 +195,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             if (!revenge.getEtNameOfRevenge().isEmpty() && !revenge.getEtWhoWillTakeRevenge().isEmpty() && !revenge.getEtWhatTheRevenge().isEmpty() && !revenge.getEtReasonForRevenge().isEmpty())
             {
-//                FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
-//                DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
+                // Add Revenge to Firebase
                 String key = myRef.push().getKey();
                 revenge.setRevengeId(key);
                 myRef.child(key).setValue(revenge);
+
+                // Close create window
                 dCreateRevenge.dismiss();
 
-
+                // Clean controls
                 etNameOfRevenge.setText("");
                 etWhoWillTakeRevenge.setText("");
                 etWhatTheRevenge.setText("");
@@ -182,7 +214,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
 
     void deleteItem(String itemKey)
     {
@@ -202,6 +233,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 // Log.e("HomeFragment", "*************** onCancelled", databaseError.toException());
             }
         });
+    }
+
+    void updateCounter(int counterRemoved)
+    {
+        // Add Counter to Firebase
+        myRefDel.child(counterKey).setValue(counterRemoved);
     }
 
 
