@@ -22,10 +22,14 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private String mParam1;
     private String mParam2;
 
-    Switch swMusicSettings;
+    /*Switch swMusicSettings;
     SeekBar sbMusicSettings;
     MediaPlayer mpRevengeSettings;
-    AudioManager amMusicSettings;
+    AudioManager amMusicSettings;*/
+
+    private Switch swMusicSettings;
+    private SeekBar sbMusicSettings;
+    MediaPlayer mediaPlayerS;
 
 
     public SettingsFragment() {
@@ -54,45 +58,41 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        swMusicSettings = (Switch)view.findViewById(R.id.swMusicSettings);
-        swMusicSettings.setOnCheckedChangeListener(SettingsFragment.this);
+        swMusicSettings = view.findViewById(R.id.swMusicSettings);
+        swMusicSettings.setOnCheckedChangeListener(this);
 
-        sbMusicSettings = (SeekBar)view.findViewById(R.id.sbMusicSettings);
-        mpRevengeSettings = MediaPlayer.create(requireContext(), R.raw.music_for_app_revenge);
-        //mpRevengeSettings.start();
+        sbMusicSettings = view.findViewById(R.id.sbMusicSettings);
+        sbMusicSettings.setOnSeekBarChangeListener(this);
 
-
-        amMusicSettings = (AudioManager) requireContext().getSystemService(Context.AUDIO_SERVICE);
-        int max = amMusicSettings.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        sbMusicSettings.setMax(16);
-        sbMusicSettings.setProgress(8);
-        amMusicSettings.setStreamVolume(AudioManager.STREAM_MUSIC, max/2, 0);
-        sbMusicSettings.setOnSeekBarChangeListener(SettingsFragment.this);
+        mediaPlayerS = MediaPlayer.create(getContext(), R.raw.music_for_app_revenge);
 
         return view;
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mediaPlayerS.release();
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-        if(compoundButton == swMusicSettings)
-        {
-            if(b)
-            {
-                mpRevengeSettings.start();
+        if (compoundButton.getId() == R.id.swMusicSettings) {
+            if (b) {
+                mediaPlayerS.start();
+            } else {
+                mediaPlayerS.pause();
             }
-            else {
-                mpRevengeSettings.pause();
-            }
-
         }
 
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if(seekBar == sbMusicSettings){
-            amMusicSettings.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0);
+        if (seekBar.getId() == R.id.sbMusicSettings) {
+            float volume = (float) (1 - (Math.log(100 - i) / Math.log(100)));
+            mediaPlayerS.setVolume(volume, volume);
         }
     }
 
@@ -105,4 +105,5 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
+
 }

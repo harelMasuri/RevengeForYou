@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
-
 public class HomeFragment extends Fragment implements View.OnClickListener {
+
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
 
     FloatingActionButton btnFloatingActionButton;
     Dialog dCreateRevenge;
@@ -46,18 +50,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
     DatabaseReference myRefDel = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
 
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     public HomeFragment() {
 
     }
 
-
+    // Create HomeFragment object
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -76,7 +73,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -90,47 +86,45 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnCreateRevenge = (Button) dCreateRevenge.findViewById(R.id.btnCreateRevenge);
         btnCreateRevenge.setOnClickListener(this);
 
-        etNameOfRevenge = (EditText) dCreateRevenge.findViewById(R.id.etNameOfRevenge);
-        etWhoWillTakeRevenge = (EditText) dCreateRevenge.findViewById(R.id.etWhoWillTakeRevenge);
-        etWhatTheRevenge = (EditText) dCreateRevenge.findViewById(R.id.etWhatTheRevenge);
-        etReasonForRevenge = (EditText) dCreateRevenge.findViewById(R.id.etReasonForRevenge);
+        etNameOfRevenge         = (EditText) dCreateRevenge.findViewById(R.id.etNameOfRevenge);
+        etWhoWillTakeRevenge    = (EditText) dCreateRevenge.findViewById(R.id.etWhoWillTakeRevenge);
+        etWhatTheRevenge        = (EditText) dCreateRevenge.findViewById(R.id.etWhatTheRevenge);
+        etReasonForRevenge      = (EditText) dCreateRevenge.findViewById(R.id.etReasonForRevenge);
 
-        TVNameOfRevenge = view.findViewById(R.id.TVNameOfRevenge);
-        TVWhoWillTakeRevenge = view.findViewById(R.id.TVWhoWillTakeRevenge);
-        TVWhatTheRevenge = view.findViewById(R.id.TVWhatTheRevenge);
-        TVReasonForRevenge = view.findViewById(R.id.TVReasonForRevenge);
+        TVNameOfRevenge         = view.findViewById(R.id.TVNameOfRevenge);
+        TVWhoWillTakeRevenge    = view.findViewById(R.id.TVWhoWillTakeRevenge);
+        TVWhatTheRevenge        = view.findViewById(R.id.TVWhatTheRevenge);
+        TVReasonForRevenge      = view.findViewById(R.id.TVReasonForRevenge);
         // checkBox1 = view.findViewById(R.id.checkBox1);
 
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_revenges);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        revenges = new ArrayList<>();
-        revengeAdapter = new RevengeAdapter(revenges);
+        revenges        = new ArrayList<>();
+        revengeAdapter  = new RevengeAdapter(revenges);
         recyclerView.setAdapter(revengeAdapter);
-
-
-        // Create Zero value for deletion counter
-        String key = myRefDel.push().getKey();
-        myRefDel.child(key).setValue(0);
-
 
         // Delete Item listener
         revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
             @Override
             public void onRevengeClick(int position) {
 
-                Revenge r = revenges.get(position);
-                String key = r.getRevengeId();
+                // Remove revenge from List
+                Revenge r   = revenges.get(position);
+                String key  = r.getRevengeId();
                 revenges.remove(position);
                 revengeAdapter.notifyItemRemoved(position);
 
                 // delete from Firebase
-                deleteItem(key);
+                myRef.child(key).removeValue();
 
+                // update deletion counter
                 counterRemoved++;
 
-                updateCounter(counterRemoved);
+                // update deletion counter in Firebase
+                myRefDel.child(counterKey).setValue(counterRemoved);
+
             }
         });
 
@@ -143,7 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 {
                     String key = revengeSnapshot.getKey();
                     Revenge currentRevenge = revengeSnapshot.getValue(Revenge.class);
-                    currentRevenge.setRevengeId(revengeSnapshot.getKey());
+                    currentRevenge.setRevengeId(key);
                     revenges.add(currentRevenge);
                 }
                 revengeAdapter.notifyDataSetChanged();
@@ -151,7 +145,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(DatabaseError error) {
-
+                Log.e("HomeFragment", "myRef.addValueEventListener: Got onCancelled");
             }
         });
 
@@ -159,19 +153,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         myRefDel.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for(DataSnapshot revengeDeletionSnapshot : snapshot.getChildren())
-                {
-                    counterKey = revengeDeletionSnapshot.getKey();
-                    counterRemoved = revengeDeletionSnapshot.getValue(Integer.class);
-                }
+                DataSnapshot deletionSnapshot = snapshot.getChildren().iterator().next();
+                counterKey = deletionSnapshot.getKey();
+                counterRemoved = deletionSnapshot.getValue(Integer.class);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-
+                Log.e("HomeFragment", "myRefDel.addValueEventListener: Got onCancelled");
             }
         });
-
 
         return view;
     }
@@ -230,16 +221,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Log.e("HomeFragment", "*************** onCancelled", databaseError.toException());
+                Log.e("HomeFragment", "deleteItem: onCancelled", databaseError.toException());
             }
         });
     }
-
-    void updateCounter(int counterRemoved)
-    {
-        // Add Counter to Firebase
-        myRefDel.child(counterKey).setValue(counterRemoved);
-    }
-
 
 }

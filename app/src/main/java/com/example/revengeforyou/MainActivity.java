@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dMusic.setContentView(R.layout.custom_layout_music);
         dMusic.setCancelable(true);
 
-        btnSignIn = (Button)findViewById(R.id.btnSignIn);
-        btnSignUp = (Button)findViewById(R.id.btnSignUp);
-        btnSave = (Button)dSignUp.findViewById(R.id.btnSave);
-        btnNext = (Button)dSignIn.findViewById(R.id.btnNext);
-        etUserNameSignUp = (EditText)dSignUp.findViewById(R.id.etUserNameSignUp);
-        etPassSignUp = (EditText)dSignUp.findViewById(R.id.etPassSignUp);
-        etUserNameSignIn = (EditText)dSignIn.findViewById(R.id.etUserNameSignIn);
-        etPassSignIn = (EditText)dSignIn.findViewById(R.id.etPassSignIn);
+        btnSignIn           = (Button)findViewById(R.id.btnSignIn);
+        btnSignUp           = (Button)findViewById(R.id.btnSignUp);
+        btnSave             = (Button)dSignUp.findViewById(R.id.btnSave);
+        btnNext             = (Button)dSignIn.findViewById(R.id.btnNext);
+        etUserNameSignUp    = (EditText)dSignUp.findViewById(R.id.etUserNameSignUp);
+        etPassSignUp        = (EditText)dSignUp.findViewById(R.id.etPassSignUp);
+        etUserNameSignIn    = (EditText)dSignIn.findViewById(R.id.etUserNameSignIn);
+        etPassSignIn        = (EditText)dSignIn.findViewById(R.id.etPassSignIn);
 
         swMusic = (Switch)dMusic.findViewById(R.id.switchMusic);
         swMusic.setOnCheckedChangeListener(this);
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignUp.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-
     }
 
 
@@ -132,16 +131,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Toast.makeText(MainActivity.this, "Sign Up failed", Toast.LENGTH_LONG).show();
                                 dSignUp.dismiss();
                             }
-
                         }
                     });
 
             etUserNameSignUp.setText("");
             etPassSignUp.setText("");
         }
-
-
-
 
         if(view == btnSignIn)
         {
@@ -165,18 +160,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             }
                         });
+
             dSignIn.dismiss();
             etUserNameSignIn.setText("");
             etPassSignIn.setText("");
         }
-
-        }
-
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b)
     {
-
         if(compoundButton == swMusic)
         {
             if(b)
@@ -184,18 +177,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else
                 mpRevenge.pause();
         }
-
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
         if(seekBar == sbMusic)
         {
-            //float alpha = (float)i/100;
             amMusic.setStreamVolume(AudioManager.STREAM_MUSIC, i,0);
         }
-
     }
 
     @Override
@@ -207,6 +196,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
-
 
 }
