@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +18,7 @@ public class RevengeAdapter extends RecyclerView.Adapter<RevengeAdapter.RevengeV
 
     private OnRevengeClickListener listener;
     public interface OnRevengeClickListener{
-        void onRevengeClick(int position);
+        void onRevengeClick(int position, int buttonNum);
     }
 
     public void setOnRevengeClickListener(OnRevengeClickListener clickListener){
@@ -44,7 +43,7 @@ public class RevengeAdapter extends RecyclerView.Adapter<RevengeAdapter.RevengeV
         holder.TVWhoWillTakeRevenge.setText(currentRevenge.getEtWhoWillTakeRevenge());
         holder.TVWhatTheRevenge.setText(currentRevenge.getEtWhatTheRevenge());
         holder.TVReasonForRevenge.setText(currentRevenge.getEtReasonForRevenge());
-//         holder.checkBox1.setChecked(currentRevenge.RevengeIsDone());
+        holder.cbIsDone.setChecked(currentRevenge.getbIsDone());
     }
 
     @Override
@@ -59,26 +58,32 @@ public class RevengeAdapter extends RecyclerView.Adapter<RevengeAdapter.RevengeV
         public TextView TVWhatTheRevenge;
         public TextView TVReasonForRevenge;
         private ImageView ImageDeleteRevenge;
-        //public CheckBox checkBox1;
+        public CheckBox cbIsDone;
 
 
         public RevengeViewHolder(View itemView, OnRevengeClickListener listener) {
             super(itemView);
 
-            TVNameOfRevenge = itemView.findViewById(R.id.TVNameOfRevenge);
-            TVWhoWillTakeRevenge = itemView.findViewById(R.id.TVWhoWillTakeRevenge);
-            TVWhatTheRevenge = itemView.findViewById(R.id.TVWhatTheRevenge);
-            TVReasonForRevenge = itemView.findViewById(R.id.TVReasonForRevenge);
-            ImageDeleteRevenge = itemView.findViewById(R.id.ImageDeleteRevenge);
-           // checkBox1 = itemView.findViewById(R.id.checkBox1);
+            TVNameOfRevenge         = itemView.findViewById(R.id.TVNameOfRevenge);
+            TVWhoWillTakeRevenge    = itemView.findViewById(R.id.TVWhoWillTakeRevenge);
+            TVWhatTheRevenge        = itemView.findViewById(R.id.TVWhatTheRevenge);
+            TVReasonForRevenge      = itemView.findViewById(R.id.TVReasonForRevenge);
+            ImageDeleteRevenge      = itemView.findViewById(R.id.ImageDeleteRevenge);
+            cbIsDone                = itemView.findViewById(R.id.cbIsDone);
 
             ImageDeleteRevenge.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onRevengeClick(getAdapterPosition());
+                    listener.onRevengeClick(getAdapterPosition(), 0);
                 }
             });
 
+            cbIsDone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onRevengeClick(getAdapterPosition(), 1);
+                }
+            });
 
         }
     }

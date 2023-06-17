@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,16 +40,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     Button btnCreateRevenge;
     EditText etNameOfRevenge, etWhoWillTakeRevenge, etWhatTheRevenge, etReasonForRevenge;
     TextView TVNameOfRevenge, TVWhoWillTakeRevenge, TVWhatTheRevenge, TVReasonForRevenge;
-    // CheckBox checkBox1;
+    CheckBox cbIsDone;
     Revenge revenge;
     ArrayList<Revenge> revenges;
     RevengeAdapter revengeAdapter;
     int counterRemoved = 0;
     String counterKey = "";
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
-    DatabaseReference myRef = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
-    DatabaseReference myRefDel = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
+    FirebaseDatabase database   = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
+    DatabaseReference myRef     = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
+    DatabaseReference myRefDel  = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
 
     public HomeFragment() {
 
@@ -95,7 +96,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         TVWhoWillTakeRevenge    = view.findViewById(R.id.TVWhoWillTakeRevenge);
         TVWhatTheRevenge        = view.findViewById(R.id.TVWhatTheRevenge);
         TVReasonForRevenge      = view.findViewById(R.id.TVReasonForRevenge);
-        // checkBox1 = view.findViewById(R.id.checkBox1);
+        cbIsDone                = view.findViewById(R.id.cbIsDone);
 
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_revenges);
@@ -104,29 +105,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         revenges        = new ArrayList<>();
         revengeAdapter  = new RevengeAdapter(revenges);
         recyclerView.setAdapter(revengeAdapter);
-
-        // Delete Item listener
-        revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
-            @Override
-            public void onRevengeClick(int position) {
-
-                // Remove revenge from List
-                Revenge r   = revenges.get(position);
-                String key  = r.getRevengeId();
-                revenges.remove(position);
-                revengeAdapter.notifyItemRemoved(position);
-
-                // delete from Firebase
-                myRef.child(key).removeValue();
-
-                // update deletion counter
-                counterRemoved++;
-
-                // update deletion counter in Firebase
-                myRefDel.child(counterKey).setValue(counterRemoved);
-
-            }
-        });
 
         // Add Item listener (Read again Revenges from Firebase)
         myRef.addValueEventListener(new ValueEventListener() {
@@ -146,6 +124,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.e("HomeFragment", "myRef.addValueEventListener: Got onCancelled");
+            }
+        });
+
+        // revengeAdapter Item listener (delete + isDone)
+        revengeAdapter.setOnRevengeClickListener(new RevengeAdapter.OnRevengeClickListener() {
+            @Override
+            public void onRevengeClick(int position, int buttonNum) {
+
+                if (buttonNum == 1)  // isDone
+                {
+                    // update Revenge to Firebase
+                    Revenge r = revenges.get(position);
+                    String key = r.getRevengeId();
+                    r.setbIsDone(!r.getbIsDone());  // Toggle isDone state
+                    myRef.child(key).setValue(r);
+                }
+                else {  // delete
+
+                    // Remove revenge from List
+                    Revenge r = revenges.get(position);
+                    String key = r.getRevengeId();
+                    revenges.remove(position);
+                    revengeAdapter.notifyItemRemoved(position);
+
+                    // delete from Firebase
+                    myRef.child(key).removeValue();
+
+                    // update deletion counter
+                    counterRemoved++;
+
+                    // update deletion counter in Firebase
+                    myRefDel.child(counterKey).setValue(counterRemoved);
+                }
             }
         });
 
@@ -189,6 +200,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 // Add Revenge to Firebase
                 String key = myRef.push().getKey();
                 revenge.setRevengeId(key);
+                revenge.setbIsDone(false);
                 myRef.child(key).setValue(revenge);
 
                 // Close create window

@@ -27,10 +27,12 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
-    DatabaseReference myRefDel = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
+    FirebaseDatabase database   = FirebaseDatabase.getInstance("https://revengeforyou-4435b-default-rtdb.firebaseio.com/");
+    DatabaseReference myRef     = database.getReference("revenge/" + FirebaseAuth.getInstance().getUid());
+    DatabaseReference myRefDel  = database.getReference("revengeDeletions/" + FirebaseAuth.getInstance().getUid());
 
     public static TextView tvDeletionCounter;
+    public static TextView tvDoneCounter;
 
     public ProfileFragment() {
 
@@ -60,7 +62,28 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         tvDeletionCounter = view.findViewById(R.id.tvDeletionCounter);
+        tvDoneCounter     = view.findViewById(R.id.tvDoneCounter);
 
+
+        // Add Item listener (Read RevengesDeletions from Firebase)
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                int counterDone = 0;
+                for(DataSnapshot revengeSnapshot : snapshot.getChildren())
+                {
+                    Revenge currentRevenge = revengeSnapshot.getValue(Revenge.class);
+                    if (currentRevenge.getbIsDone())
+                        counterDone++;
+                }
+                tvDoneCounter.setText(String.valueOf(counterDone));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("ProfileFragment", "myRefDel.addValueEventListener: Got onCancelled");
+            }
+        });
 
         // Add Item listener (Read RevengesDeletions from Firebase)
         myRefDel.addValueEventListener(new ValueEventListener() {

@@ -6,19 +6,20 @@ public class Revenge {
     private String etWhoWillTakeRevenge;
     private String etWhatTheRevenge;
     private String etReasonForRevenge;
-    private Boolean revengeIsDone;
+    private Boolean bIsDone;
     private String revengeId;
 
     public Revenge(String etNameOfRevenge, String etWhoWillTakeRevenge, String etWhatTheRevenge, String etReasonForRevenge) {
-        this.etNameOfRevenge = etNameOfRevenge;
-        this.etWhoWillTakeRevenge = etWhoWillTakeRevenge;
-        this.etWhatTheRevenge = etWhatTheRevenge;
-        this.etReasonForRevenge = etReasonForRevenge;
-        this.revengeIsDone = false;
-        this.revengeId = "";
+        this.etNameOfRevenge        = etNameOfRevenge;
+        this.etWhoWillTakeRevenge   = etWhoWillTakeRevenge;
+        this.etWhatTheRevenge       = etWhatTheRevenge;
+        this.etReasonForRevenge     = etReasonForRevenge;
+        this.bIsDone = false;
+        this.revengeId              = "";
     }
 
     public Revenge() {
+        bIsDone = false;
     }
 
     public String getEtNameOfRevenge() {
@@ -61,11 +62,11 @@ public class Revenge {
         this.etReasonForRevenge = etReasonForRevenge;
     }
 
-    public Boolean RevengeIsDone() {
-        return revengeIsDone;
+    public Boolean getbIsDone() {
+        return bIsDone;
     }
 
-    public void setRevengeIsDone(Boolean revengeIsDone) {
-        this.revengeIsDone = revengeIsDone;
+    public void setbIsDone(Boolean IsDone) {
+        this.bIsDone = IsDone;
     }
 }
