@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (task.isSuccessful()) {
                                 startActivity(new Intent(MainActivity.this, RevengeAcount.class));
                                 dSignUp.dismiss();
+                                mpRevenge.pause();
                                 Toast.makeText(MainActivity.this, "username and password saved", Toast.LENGTH_LONG).show();
                             }
                             else {
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(MainActivity.this, RevengeAcount.class));
+                                    mpRevenge.pause();
                                     Toast.makeText(MainActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
                                 }
                                 else {

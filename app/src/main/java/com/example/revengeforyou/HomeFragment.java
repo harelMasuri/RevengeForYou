@@ -155,7 +155,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     counterRemoved++;
 
                     // update deletion counter in Firebase
-                    myRefDel.child(counterKey).setValue(counterRemoved);
+                    myRefDel.child(key).setValue(counterRemoved);
                 }
             }
         });
@@ -164,9 +164,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         myRefDel.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                DataSnapshot deletionSnapshot = snapshot.getChildren().iterator().next();
-                counterKey = deletionSnapshot.getKey();
-                counterRemoved = deletionSnapshot.getValue(Integer.class);
+                int childrenAmount = 0;
+                for(DataSnapshot revengeSnapshot : snapshot.getChildren()) {
+                    childrenAmount++;
+                }
+                if (childrenAmount > 0) {
+                    DataSnapshot deletionSnapshot = snapshot.getChildren().iterator().next();
+                    counterKey = deletionSnapshot.getKey();
+                    counterRemoved = deletionSnapshot.getValue(Integer.class);
+                }
             }
 
             @Override

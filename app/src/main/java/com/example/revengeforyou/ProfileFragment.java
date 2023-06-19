@@ -1,5 +1,7 @@
 package com.example.revengeforyou;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -33,6 +35,7 @@ public class ProfileFragment extends Fragment {
 
     public static TextView tvDeletionCounter;
     public static TextView tvDoneCounter;
+
 
     public ProfileFragment() {
 
@@ -89,8 +92,14 @@ public class ProfileFragment extends Fragment {
         myRefDel.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                int counterRemoved = snapshot.getChildren().iterator().next().getValue(Integer.class);
-                tvDeletionCounter.setText(String.valueOf(counterRemoved));
+                int childrenAmount = 0;
+                for(DataSnapshot revengeSnapshot : snapshot.getChildren()) {
+                    childrenAmount++;
+                }
+                if (childrenAmount > 0) {
+                    int counterRemoved = snapshot.getChildren().iterator().next().getValue(Integer.class);
+                    tvDeletionCounter.setText(String.valueOf(counterRemoved));
+                }
             }
 
             @Override

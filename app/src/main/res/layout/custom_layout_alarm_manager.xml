@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Frequency"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButton1Hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every 12 Hour" />
+
+        <RadioButton
+            android:id="@+id/radioButton2Hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every 24 Hours" />
+
+        <RadioButton
+            android:id="@+id/radioButton3Hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Week" />
+
+        <!-- Add more frequency options as needed -->
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
