@@ -86,10 +86,10 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         mediaPlayerS = MediaPlayer.create(getContext(), R.raw.music_for_app_revenge);
 
-        audioManagerS = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-        int currentVolume = audioManagerS.getStreamVolume(AudioManager.STREAM_MUSIC);
-        int maxVolume = audioManagerS.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int progress = (int) (currentVolume / (float) maxVolume * 100);
+        audioManagerS       = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+        int currentVolume   = audioManagerS.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolume       = audioManagerS.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int progress        = (int) (currentVolume / (float) maxVolume * 100);
         sbMusicSettings.setProgress(progress);
 
 
@@ -113,18 +113,21 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
 
     private void createNotificationChannel() {
-        // Create the notification channel for Android 8.0 and above
+        // Create the notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Context context = requireContext().getApplicationContext();
-            CharSequence channelName = "Revenge For You";
-            String channelDescription = "don't forget to revenge";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            Context context             = requireContext().getApplicationContext();
+            CharSequence channelName    = "Revenge For You";
+            String channelDescription   = "do not forget to revenge";
+            int importance              = NotificationManager.IMPORTANCE_DEFAULT;
+
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
             channel.setDescription(channelDescription);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 
     private void showFrequencyPickerDialog() {
         Context context = requireContext().getApplicationContext();
@@ -147,6 +150,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 
     private void scheduleAlarm(int frequencyInHours) {
         Context context = requireContext().getApplicationContext();
@@ -176,13 +180,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
 
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mediaPlayerS.release();
     }
+
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -194,19 +197,22 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 mediaPlayerS.pause();
             }
         }
-
     }
+
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         if (seekBar.getId() == R.id.sbMusicSettings) {
-            float volume = (float) (1 - (Math.log(100 - i) / Math.log(100)));
+
+            float volume        = (float) (1 - (Math.log(100 - i) / Math.log(100)));
             mediaPlayerS.setVolume(volume, volume);
-            int maxVolume = audioManagerS.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            int currentVolume = (int) (i / 100f * maxVolume);
+            int maxVolume       = audioManagerS.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            int currentVolume   = (int) (i / 100f * maxVolume);
+
             audioManagerS.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
         }
     }
+
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {

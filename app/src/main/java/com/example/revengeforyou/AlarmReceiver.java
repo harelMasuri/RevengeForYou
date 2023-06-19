@@ -21,8 +21,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         showNotification(context);
     }
 
+
     private void showNotification(Context context) {
-        // Create the notification channel for Android 8.0 and above
+        // Create the notification channel
         createNotificationChannel(context);
 
         // Create the intent for the notification
@@ -37,7 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.icon_revenge)
-                .setContentTitle("Reminder!")
+                .setContentTitle("Revenge For You Reminder!")
                 .setContentText("A long time without revenge...")
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -48,12 +49,16 @@ public class AlarmReceiver extends BroadcastReceiver {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
+
     private void createNotificationChannel(Context context) {
-        // Create the notification channel for Android 8.0 and above
+
+        // Create the notification channel
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            CharSequence name = "Notification Channel";
-            String description = "Channel Description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            CharSequence name   = "Revenge For You";
+            String description  = "do not forget to revenge";
+            int importance      = NotificationManager.IMPORTANCE_DEFAULT; // IMPORTANCE_HIGH;
+
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
